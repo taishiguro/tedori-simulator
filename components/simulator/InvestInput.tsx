@@ -45,7 +45,7 @@ function NumInput({
         min={0}
         step="1"
         placeholder="0"
-        className="rounded border border-gray-300 px-3 py-1.5 text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-44"
+        className="rounded border border-gray-300 px-3 py-1.5 text-sm text-right text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-44"
       />
       <span className="text-xs text-gray-700 hidden sm:inline">円</span>
     </div>
