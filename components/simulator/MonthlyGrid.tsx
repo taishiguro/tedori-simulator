@@ -20,7 +20,7 @@ export function MonthlyGrid({ values, onChange, allowNegative = false }: Monthly
     <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
       {MONTHS.map((month, i) => (
         <div key={month} className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-700">{month}</label>
+          <label className="text-xs font-medium text-gray-800">{month}</label>
           <input
             type="number"
             value={values[i] === 0 ? '' : values[i]}
@@ -28,7 +28,7 @@ export function MonthlyGrid({ values, onChange, allowNegative = false }: Monthly
             min={allowNegative ? undefined : 0}
             step="1"
             placeholder="0"
-            className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm text-right text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
       ))}

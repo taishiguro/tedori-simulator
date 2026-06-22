@@ -39,7 +39,7 @@ export function SalaryInput({ monthly, bonus, onChange }: SalaryInputProps) {
           placeholder="月額均等入力（円）"
           min={0}
           step="1"
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-48"
+          className="rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 w-48"
         />
         <button
           type="button"
@@ -71,7 +71,7 @@ export function SalaryInput({ monthly, bonus, onChange }: SalaryInputProps) {
           min={0}
           step="1"
           placeholder="0"
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
+          className="rounded border border-gray-300 px-3 py-1.5 text-sm text-right text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 w-44"
         />
       </div>
 

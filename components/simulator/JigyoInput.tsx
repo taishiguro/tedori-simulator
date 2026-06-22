@@ -39,7 +39,7 @@ export function JigyoInput({ monthly, onChange }: JigyoInputProps) {
           onChange={e => setBulkValue(e.target.value)}
           placeholder="月額均等入力（円）"
           step="1"
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-48"
+          className="rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 w-48"
         />
         <button
           type="button"

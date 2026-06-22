@@ -30,7 +30,7 @@ function NumInput({
         min={0}
         step="1"
         placeholder="0"
-        className="rounded border border-gray-300 px-2 py-1 text-sm text-right w-36 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="rounded border border-gray-300 px-2 py-1 text-sm text-right text-gray-900 w-36 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <span className="text-xs text-gray-700">{unit}</span>
     </div>
@@ -56,7 +56,7 @@ function CountInput({
         min={0}
         step="1"
         placeholder="0"
-        className="rounded border border-gray-300 px-2 py-1 text-sm text-right w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="rounded border border-gray-300 px-2 py-1 text-sm text-right text-gray-900 w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <span className="text-xs text-gray-700">人</span>
     </div>
@@ -286,7 +286,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
               onChange={v => set('loanBalance', v)}
             />
             <div className="flex flex-wrap items-center gap-2 ml-6">
-              <label className="text-sm text-gray-600 w-52">控除率</label>
+              <label className="text-sm text-gray-700 w-52">控除率</label>
               <input
                 type="number"
                 value={Math.round(deductions.loanRate * 1000) / 10}
@@ -295,7 +295,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
                 max={1}
                 step="0.1"
                 placeholder="0.7"
-                className="rounded border border-gray-300 px-2 py-1 text-sm text-right w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="rounded border border-gray-300 px-2 py-1 text-sm text-right text-gray-900 w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <span className="text-xs text-gray-700">%（通常0.7%）</span>
             </div>

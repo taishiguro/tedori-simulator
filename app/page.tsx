@@ -139,7 +139,7 @@ export default function Home() {
               className={`flex-shrink-0 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                 activeTab === tab.id
                   ? 'bg-blue-600 text-white shadow-sm'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
               }`}
             >
               {tab.label}
@@ -187,7 +187,7 @@ export default function Home() {
                       id="pref"
                       value={pref}
                       onChange={e => setPref(e.target.value)}
-                      className="w-full rounded border border-gray-300 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {PREFS.map(p => (
                         <option key={p.code} value={p.code}>
