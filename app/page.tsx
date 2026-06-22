@@ -146,8 +146,13 @@ export default function Home() {
 
   const handlePdfDownload = async () => {
     const date = new Date().toISOString().slice(0, 10)
-    const { downloadPdf } = await import('@/lib/export/pdfExporter')
-    downloadPdf({ ...exportPayload, date })
+    try {
+      const { downloadPdf } = await import('@/lib/export/pdfExporter')
+      downloadPdf({ ...exportPayload, date })
+    } catch (err) {
+      console.error('PDF download failed:', err)
+      alert(err instanceof Error ? err.message : 'PDFのダウンロードに失敗しました')
+    }
   }
 
   const handleCsvImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
