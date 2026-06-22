@@ -58,12 +58,12 @@ export function SalaryInput({ monthly, bonus, onChange }: SalaryInputProps) {
       </div>
 
       <div>
-        <p className="mb-2 text-sm font-semibold text-gray-700">月次給与（円）</p>
+        <p className="mb-2 text-sm font-semibold text-gray-800">月次給与（円）</p>
         <MonthlyGrid values={monthly} onChange={v => onChange(v, bonus)} />
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <label className="text-sm font-medium text-gray-700 whitespace-nowrap">賞与（年間・円）</label>
+        <label className="text-sm font-medium text-gray-800 whitespace-nowrap">賞与（年間・円）</label>
         <input
           type="number"
           value={bonus === 0 ? '' : bonus}

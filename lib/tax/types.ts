@@ -61,8 +61,10 @@ export interface TaxData {
 export interface SimulatorInputs {
   salary: number
   bonus: number
-  jigyo: number
-  fudosan: number
+  jigyoRevenue: number[]
+  jigyoExpense: number[]
+  fudosanRevenue: number[]
+  fudosanExpense: number[]
   haito: number
   haitoMode: 'bunri' | 'sogo' | 'noapply'
   kabuGain: number

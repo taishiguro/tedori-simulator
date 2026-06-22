@@ -7,8 +7,10 @@ const data = getTaxData(2025)
 const baseInputs: SimulatorInputs = {
   salary: 0,
   bonus: 0,
-  jigyo: 0,
-  fudosan: 0,
+  jigyoRevenue: Array(12).fill(0) as number[],
+  jigyoExpense: Array(12).fill(0) as number[],
+  fudosanRevenue: Array(12).fill(0) as number[],
+  fudosanExpense: Array(12).fill(0) as number[],
   haito: 0,
   haitoMode: 'noapply',
   kabuGain: 0,
@@ -70,7 +72,8 @@ describe('年収500万円・事業所得300万円の複合ケース', () => {
   const inputs: SimulatorInputs = {
     ...baseInputs,
     salary: 5_000_000,
-    jigyo: 3_000_000,
+    jigyoRevenue: [3_000_000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    jigyoExpense: Array(12).fill(0) as number[],
     koyo: 'employee',
     pref: '13',
     deductions: { ...baseInputs.deductions, basic: true },

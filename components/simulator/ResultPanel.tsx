@@ -68,14 +68,14 @@ export function ResultPanel({ result }: ResultPanelProps) {
       </div>
 
       <div className="overflow-x-auto">
-        <p className="text-sm font-semibold text-gray-700 mb-2">計算内訳</p>
+        <p className="text-sm font-semibold text-gray-800 mb-2">計算内訳</p>
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-gray-50">
-              <th className="border border-gray-200 px-4 py-2 text-left text-xs font-semibold text-gray-700">
+              <th className="border border-gray-200 px-4 py-2 text-left text-xs font-semibold text-gray-800">
                 項目
               </th>
-              <th className="border border-gray-200 px-4 py-2 text-right text-xs font-semibold text-gray-700">
+              <th className="border border-gray-200 px-4 py-2 text-right text-xs font-semibold text-gray-800">
                 金額（円）
               </th>
             </tr>

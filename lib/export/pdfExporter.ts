@@ -10,7 +10,8 @@ export interface PdfExportData {
   pref: string
   salaryMonthly: number[]
   bonus: number
-  jigyoMonthly: number[]
+  jigyoRevenue: number[]
+  jigyoExpense: number[]
   invest: InvestState
   deductions: SimulatorInputs['deductions']
   result: TedoriResult
