@@ -20,7 +20,7 @@ export function MonthlyGrid({ values, onChange, allowNegative = false }: Monthly
     <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
       {MONTHS.map((month, i) => (
         <div key={month} className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500">{month}</label>
+          <label className="text-xs font-medium text-gray-700">{month}</label>
           <input
             type="number"
             value={values[i] === 0 ? '' : values[i]}

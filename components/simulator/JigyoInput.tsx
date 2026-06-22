@@ -30,7 +30,7 @@ export function JigyoInput({ monthly, onChange }: JigyoInputProps) {
 
   return (
     <div className="space-y-4">
-      <p className="text-xs text-gray-500">赤字の場合はマイナス入力可</p>
+      <p className="text-xs text-gray-700">赤字の場合はマイナス入力可</p>
 
       <div className="flex flex-wrap items-center gap-2">
         <input

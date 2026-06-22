@@ -36,7 +36,7 @@ function NumInput({
     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
       <label className="text-sm font-medium text-gray-700 sm:w-52 shrink-0">
         {label}
-        {note && <span className="ml-1 text-xs text-gray-500">（{note}）</span>}
+        {note && <span className="ml-1 text-xs text-gray-700">（{note}）</span>}
       </label>
       <input
         type="number"
@@ -47,7 +47,7 @@ function NumInput({
         placeholder="0"
         className="rounded border border-gray-300 px-3 py-1.5 text-sm text-right focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-44"
       />
-      <span className="text-xs text-gray-500 hidden sm:inline">円</span>
+      <span className="text-xs text-gray-700 hidden sm:inline">円</span>
     </div>
   )
 }
@@ -103,7 +103,7 @@ export function InvestInput({ state, onChange }: InvestInputProps) {
 
       <section className="space-y-3">
         <h3 className="font-semibold text-gray-800 border-b border-gray-200 pb-1">不動産所得（月次・円）</h3>
-        <p className="text-xs text-gray-500">赤字の場合はマイナス入力可</p>
+        <p className="text-xs text-gray-700">赤字の場合はマイナス入力可</p>
         <MonthlyGrid
           values={fudosanMonthly}
           onChange={v => onChange({ fudosanMonthly: v })}
