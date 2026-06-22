@@ -126,7 +126,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-10">
         <h1 className="text-xl font-bold text-gray-900">手取りシミュレーター</h1>
-        <p className="text-xs text-gray-500">令和7年（2025年）税制対応</p>
+        <p className="text-xs text-gray-700">令和7年（2025年）税制対応</p>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-6">
@@ -161,7 +161,7 @@ export default function Home() {
                         ['none', '未加入'],
                       ] as const
                     ).map(([val, label]) => (
-                      <label key={val} className="flex items-center gap-1.5 cursor-pointer text-sm">
+                      <label key={val} className="flex items-center gap-1.5 cursor-pointer text-sm text-gray-900">
                         <input
                           type="radio"
                           name="koyo"

@@ -27,10 +27,10 @@ function SummaryCard({
           : 'bg-white border-gray-200 text-gray-900'
       }`}
     >
-      <p className={`text-xs mb-1 ${highlight ? 'text-blue-200' : 'text-gray-500'}`}>{label}</p>
+      <p className={`text-xs mb-1 ${highlight ? 'text-blue-200' : 'text-gray-700'}`}>{label}</p>
       <p className={`font-bold text-lg ${highlight ? 'text-white' : 'text-gray-900'}`}>
         {fmt(value)}{' '}
-        <span className={`text-xs font-normal ${highlight ? 'text-blue-200' : 'text-gray-500'}`}>
+        <span className={`text-xs font-normal ${highlight ? 'text-blue-200' : 'text-gray-700'}`}>
           円
         </span>
       </p>
@@ -72,10 +72,10 @@ export function ResultPanel({ result }: ResultPanelProps) {
         <table className="w-full text-sm border-collapse">
           <thead>
             <tr className="bg-gray-50">
-              <th className="border border-gray-200 px-4 py-2 text-left text-xs font-semibold text-gray-600">
+              <th className="border border-gray-200 px-4 py-2 text-left text-xs font-semibold text-gray-700">
                 項目
               </th>
-              <th className="border border-gray-200 px-4 py-2 text-right text-xs font-semibold text-gray-600">
+              <th className="border border-gray-200 px-4 py-2 text-right text-xs font-semibold text-gray-700">
                 金額（円）
               </th>
             </tr>

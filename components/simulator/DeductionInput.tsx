@@ -22,7 +22,7 @@ function NumInput({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 ml-6">
-      <label className="text-sm text-gray-600 w-52">{label}</label>
+      <label className="text-sm text-gray-700 w-52">{label}</label>
       <input
         type="number"
         value={value === 0 ? '' : value}
@@ -32,7 +32,7 @@ function NumInput({
         placeholder="0"
         className="rounded border border-gray-300 px-2 py-1 text-sm text-right w-36 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <span className="text-xs text-gray-500">{unit}</span>
+      <span className="text-xs text-gray-700">{unit}</span>
     </div>
   )
 }
@@ -48,7 +48,7 @@ function CountInput({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 ml-6">
-      <label className="text-sm text-gray-600 w-52">{label}</label>
+      <label className="text-sm text-gray-700 w-52">{label}</label>
       <input
         type="number"
         value={value === 0 ? '' : value}
@@ -58,7 +58,7 @@ function CountInput({
         placeholder="0"
         className="rounded border border-gray-300 px-2 py-1 text-sm text-right w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <span className="text-xs text-gray-500">人</span>
+      <span className="text-xs text-gray-700">人</span>
     </div>
   )
 }
@@ -83,7 +83,7 @@ function Checkbox({
         className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
       />
       <span className="text-sm font-medium text-gray-700">{label}</span>
-      {note && <span className="text-xs text-gray-500">（{note}）</span>}
+      {note && <span className="text-xs text-gray-700">（{note}）</span>}
     </label>
   )
 }
@@ -297,12 +297,12 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
                 placeholder="0.7"
                 className="rounded border border-gray-300 px-2 py-1 text-sm text-right w-20 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <span className="text-xs text-gray-500">%（通常0.7%）</span>
+              <span className="text-xs text-gray-700">%（通常0.7%）</span>
             </div>
           </div>
         )}
 
-        <p className="text-xs text-gray-400 ml-1">
+        <p className="text-xs text-gray-700 ml-1">
           配当控除・外国税額控除は現在計算対象外です
         </p>
       </section>
