@@ -7,7 +7,8 @@ export interface ImportedState {
   pref: string
   salaryMonthly: number[]
   bonus: number
-  jigyoMonthly: number[]
+  jigyoRevenue: number[]
+  jigyoExpense: number[]
   invest: InvestState
   deductions: SimulatorInputs['deductions']
 }
@@ -60,13 +61,18 @@ export function parseCsv(text: string): ImportedState {
     pref: map['input:pref'] ?? '13',
     salaryMonthly: monthly12('input:salary'),
     bonus: num('input:bonus'),
-    jigyoMonthly: monthly12('input:jigyo'),
+    jigyoRevenue: monthly12('input:jigyo_revenue'),
+    jigyoExpense: monthly12('input:jigyo_expense'),
     invest: {
       haito: num('input:haito_amt'),
       haitoMode,
       kabuGain: num('input:kabu_gain'),
       kabuLoss: num('input:kabu_loss'),
-      fudosanMonthly: monthly12('input:fudosan'),
+      fudosanRevenue: monthly12('input:fudosan_revenue'),
+      fudosanExpense: monthly12('input:fudosan_expense'),
+      fudosanDepreciation: 0,
+      fudosanRepair: 0,
+      fudosanManagement: 0,
       crypto: num('input:crypto'),
       rishi: num('input:rishi'),
     },

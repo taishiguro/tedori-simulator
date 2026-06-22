@@ -111,9 +111,6 @@ export function calcAllDeductions(
   // 勤労学生控除
   if (inputs.deductions.student) total += 270000
 
-  // 青色申告特別控除
-  if (inputs.deductions.aoshiro) total += inputs.deductions.aoshiroAmount
-
   // 小規模企業共済等掛金控除
   total += inputs.deductions.shako
 
@@ -150,11 +147,16 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
   const kyuyoKojo = calcKyuyoKojo(kyuyoBase, data)
   const kyuyoShotoku = Math.round(Math.max(0, kyuyoBase - kyuyoKojo))
 
-  // 事業所得
-  const jigyoShotoku = Math.round(Math.max(0, inputs.jigyo))
+  // 事業所得（青色申告特別控除をここで控除）
+  const aoshiroKojo = inputs.deductions.aoshiro ? inputs.deductions.aoshiroAmount : 0
+  const jigyoRevTotal = inputs.jigyoRevenue.reduce((a, b) => a + b, 0)
+  const jigyoExpTotal = inputs.jigyoExpense.reduce((a, b) => a + b, 0)
+  const jigyoShotoku = Math.round(jigyoRevTotal - jigyoExpTotal - aoshiroKojo)
 
   // 不動産所得
-  const fudosanShotoku = Math.round(Math.max(0, inputs.fudosan))
+  const fudosanRevTotal = inputs.fudosanRevenue.reduce((a, b) => a + b, 0)
+  const fudosanExpTotal = inputs.fudosanExpense.reduce((a, b) => a + b, 0)
+  const fudosanShotoku = Math.round(fudosanRevTotal - fudosanExpTotal)
 
   // 総合課税所得（配当は選択による）
   const haitoSogo = inputs.haitoMode === 'sogo' ? inputs.haito : 0
@@ -197,7 +199,7 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
   const totalTax = Math.round(sogoTaxAfterCredit + bunriTax + juminTax + shakai)
 
   // 総収入
-  const grossIncome = Math.round(inputs.salary + inputs.bonus + inputs.jigyo + inputs.fudosan + inputs.haito + inputs.kabuGain + inputs.crypto + inputs.rishi)
+  const grossIncome = Math.round(inputs.salary + inputs.bonus + jigyoRevTotal + fudosanRevTotal + inputs.haito + inputs.kabuGain + inputs.crypto + inputs.rishi)
 
   // 手取り
   const tedori = Math.round(grossIncome - totalTax - inputs.kabuLoss)

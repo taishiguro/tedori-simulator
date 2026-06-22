@@ -75,7 +75,11 @@ const DEFAULT_INVEST: InvestState = {
   haitoMode: 'noapply',
   kabuGain: 0,
   kabuLoss: 0,
-  fudosanMonthly: Array(12).fill(0) as number[],
+  fudosanRevenue: Array(12).fill(0) as number[],
+  fudosanExpense: Array(12).fill(0) as number[],
+  fudosanDepreciation: 0,
+  fudosanRepair: 0,
+  fudosanManagement: 0,
   crypto: 0,
   rishi: 0,
 }
@@ -86,7 +90,8 @@ export default function Home() {
   const [pref, setPref] = useState('13')
   const [salaryMonthly, setSalaryMonthly] = useState<number[]>(Array(12).fill(0))
   const [bonus, setBonus] = useState(0)
-  const [jigyoMonthly, setJigyoMonthly] = useState<number[]>(Array(12).fill(0))
+  const [jigyoRevenue, setJigyoRevenue] = useState<number[]>(Array(12).fill(0))
+  const [jigyoExpense, setJigyoExpense] = useState<number[]>(Array(12).fill(0))
   const [invest, setInvest] = useState<InvestState>(DEFAULT_INVEST)
   const [deductions, setDeductions] = useState<SimulatorInputs['deductions']>(DEFAULT_DEDUCTIONS)
 
@@ -96,8 +101,10 @@ export default function Home() {
     () => ({
       salary: salaryMonthly.reduce((a, b) => a + b, 0),
       bonus,
-      jigyo: jigyoMonthly.reduce((a, b) => a + b, 0),
-      fudosan: invest.fudosanMonthly.reduce((a, b) => a + b, 0),
+      jigyoRevenue,
+      jigyoExpense,
+      fudosanRevenue: invest.fudosanRevenue,
+      fudosanExpense: invest.fudosanExpense,
       haito: invest.haito,
       haitoMode: invest.haitoMode,
       kabuGain: invest.kabuGain,
@@ -110,7 +117,7 @@ export default function Home() {
       pref,
       deductions,
     }),
-    [salaryMonthly, bonus, jigyoMonthly, invest, koyo, pref, deductions]
+    [salaryMonthly, bonus, jigyoRevenue, jigyoExpense, invest, koyo, pref, deductions]
   )
 
   const result = useMemo(() => calcTedori(inputs, taxData), [inputs, taxData])
@@ -131,12 +138,13 @@ export default function Home() {
       pref,
       salaryMonthly,
       bonus,
-      jigyoMonthly,
+      jigyoRevenue,
+      jigyoExpense,
       invest,
       deductions,
       result,
     }),
-    [koyo, pref, salaryMonthly, bonus, jigyoMonthly, invest, deductions, result]
+    [koyo, pref, salaryMonthly, bonus, jigyoRevenue, jigyoExpense, invest, deductions, result]
   )
 
   const handleCsvDownload = () => {
@@ -166,7 +174,8 @@ export default function Home() {
       setPref(imported.pref)
       setSalaryMonthly(imported.salaryMonthly)
       setBonus(imported.bonus)
-      setJigyoMonthly(imported.jigyoMonthly)
+      setJigyoRevenue(imported.jigyoRevenue)
+      setJigyoExpense(imported.jigyoExpense)
       setInvest(imported.invest)
       setDeductions(imported.deductions)
     } catch (err) {
@@ -205,7 +214,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-gray-100">
                 <div>
-                  <p className="text-sm font-semibold text-gray-700 mb-2">雇用形態</p>
+                  <p className="text-sm font-semibold text-gray-800 mb-2">雇用形態</p>
                   <div className="flex flex-wrap gap-4">
                     {(
                       [
@@ -232,7 +241,7 @@ export default function Home() {
                   <div>
                     <label
                       htmlFor="pref"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
+                      className="block text-sm font-semibold text-gray-800 mb-2"
                     >
                       都道府県（健康保険料率）
                     </label>
@@ -260,7 +269,12 @@ export default function Home() {
           )}
 
           {activeTab === 'jigyo' && (
-            <JigyoInput monthly={jigyoMonthly} onChange={setJigyoMonthly} />
+            <JigyoInput
+              revenue={jigyoRevenue}
+              expense={jigyoExpense}
+              onRevenueChange={setJigyoRevenue}
+              onExpenseChange={setJigyoExpense}
+            />
           )}
 
           {activeTab === 'invest' && (

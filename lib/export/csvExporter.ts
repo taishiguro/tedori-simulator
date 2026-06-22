@@ -8,7 +8,8 @@ export interface CsvExportData {
   pref: string
   salaryMonthly: number[]
   bonus: number
-  jigyoMonthly: number[]
+  jigyoRevenue: number[]
+  jigyoExpense: number[]
   invest: InvestState
   deductions: SimulatorInputs['deductions']
   result: TedoriResult
@@ -32,13 +33,15 @@ export function generateCsvContent(data: CsvExportData): string {
 
   data.salaryMonthly.forEach((v, i) => rows.push(`input:salary_${pad2(i + 1)},${v}`))
   rows.push(`input:bonus,${data.bonus}`)
-  data.jigyoMonthly.forEach((v, i) => rows.push(`input:jigyo_${pad2(i + 1)},${v}`))
+  data.jigyoRevenue.forEach((v, i) => rows.push(`input:jigyo_revenue_${pad2(i + 1)},${v}`))
+  data.jigyoExpense.forEach((v, i) => rows.push(`input:jigyo_expense_${pad2(i + 1)},${v}`))
 
   rows.push(`input:kabu_gain,${invest.kabuGain}`)
   rows.push(`input:kabu_loss,${invest.kabuLoss}`)
   rows.push(`input:haito_amt,${invest.haito}`)
   rows.push(`input:haito_mode,${invest.haitoMode}`)
-  invest.fudosanMonthly.forEach((v, i) => rows.push(`input:fudosan_${pad2(i + 1)},${v}`))
+  invest.fudosanRevenue.forEach((v, i) => rows.push(`input:fudosan_revenue_${pad2(i + 1)},${v}`))
+  invest.fudosanExpense.forEach((v, i) => rows.push(`input:fudosan_expense_${pad2(i + 1)},${v}`))
   rows.push(`input:crypto,${invest.crypto}`)
   rows.push(`input:rishi,${invest.rishi}`)
 

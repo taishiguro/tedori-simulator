@@ -22,7 +22,7 @@ function NumInput({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 ml-6">
-      <label className="text-sm text-gray-700 w-52">{label}</label>
+      <label className="text-sm text-gray-800 w-52">{label}</label>
       <input
         type="number"
         value={value === 0 ? '' : value}
@@ -48,7 +48,7 @@ function CountInput({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 ml-6">
-      <label className="text-sm text-gray-700 w-52">{label}</label>
+      <label className="text-sm text-gray-800 w-52">{label}</label>
       <input
         type="number"
         value={value === 0 ? '' : value}
@@ -82,7 +82,7 @@ function Checkbox({
         onChange={e => onChange(e.target.checked)}
         className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
       />
-      <span className="text-sm font-medium text-gray-700">{label}</span>
+      <span className="text-sm font-medium text-gray-900">{label}</span>
       {note && <span className="text-xs text-gray-700">（{note}）</span>}
     </label>
   )
@@ -132,7 +132,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
         )}
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-700">扶養控除</p>
+          <p className="text-sm font-medium text-gray-800">扶養控除</p>
           <CountInput
             label="一般扶養（16〜18歳・23〜69歳）"
             value={deductions.dependGeneral}
@@ -151,7 +151,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-gray-700">障害者控除</p>
+          <p className="text-sm font-medium text-gray-800">障害者控除</p>
           <CountInput
             label="一般障害者"
             value={deductions.disableGeneral}
