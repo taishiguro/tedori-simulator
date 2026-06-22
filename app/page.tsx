@@ -9,6 +9,8 @@ import { JigyoInput } from '@/components/simulator/JigyoInput'
 import { InvestInput, type InvestState } from '@/components/simulator/InvestInput'
 import { DeductionInput } from '@/components/simulator/DeductionInput'
 import { ResultPanel } from '@/components/simulator/ResultPanel'
+import { downloadCsv } from '@/lib/export/csvExporter'
+import { parseCsv } from '@/lib/export/csvImporter'
 
 const PREFS = [
   { code: '1', name: '北海道' }, { code: '2', name: '青森県' }, { code: '3', name: '岩手県' },
@@ -122,6 +124,52 @@ export default function Home() {
     setBonus(b)
   }
 
+  const exportPayload = useMemo(
+    () => ({
+      year: 2025 as const,
+      koyo,
+      pref,
+      salaryMonthly,
+      bonus,
+      jigyoMonthly,
+      invest,
+      deductions,
+      result,
+    }),
+    [koyo, pref, salaryMonthly, bonus, jigyoMonthly, invest, deductions, result]
+  )
+
+  const handleCsvDownload = () => {
+    const date = new Date().toISOString().slice(0, 10)
+    downloadCsv({ ...exportPayload, date })
+  }
+
+  const handlePdfDownload = async () => {
+    const date = new Date().toISOString().slice(0, 10)
+    const { downloadPdf } = await import('@/lib/export/pdfExporter')
+    downloadPdf({ ...exportPayload, date })
+  }
+
+  const handleCsvImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target
+    const file = target.files?.[0]
+    if (!file) return
+    try {
+      const text = await file.text()
+      const imported = parseCsv(text)
+      setKoyo(imported.koyo)
+      setPref(imported.pref)
+      setSalaryMonthly(imported.salaryMonthly)
+      setBonus(imported.bonus)
+      setJigyoMonthly(imported.jigyoMonthly)
+      setInvest(imported.invest)
+      setDeductions(imported.deductions)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'CSVの読み込みに失敗しました')
+    }
+    target.value = ''
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-10">
@@ -218,7 +266,31 @@ export default function Home() {
             <DeductionInput deductions={deductions} onChange={setDeductions} />
           )}
 
-          {activeTab === 'result' && <ResultPanel result={result} />}
+          {activeTab === 'result' && (
+            <div className="space-y-4">
+              <div className="flex flex-wrap gap-2 pb-4 border-b border-gray-100">
+                <button
+                  type="button"
+                  onClick={handleCsvDownload}
+                  className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 active:bg-gray-100"
+                >
+                  CSVダウンロード
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePdfDownload}
+                  className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 active:bg-gray-100"
+                >
+                  PDFダウンロード
+                </button>
+                <label className="cursor-pointer rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 active:bg-gray-100">
+                  CSVから読み込む
+                  <input type="file" accept=".csv" onChange={handleCsvImport} className="hidden" />
+                </label>
+              </div>
+              <ResultPanel result={result} />
+            </div>
+          )}
         </div>
       </main>
     </div>
