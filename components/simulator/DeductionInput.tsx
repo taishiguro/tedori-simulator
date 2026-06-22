@@ -176,7 +176,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
         />
         {deductions.widow && (
           <div className="flex flex-wrap gap-4 ml-6">
-            <label className="flex items-center gap-1 text-sm cursor-pointer">
+            <label className="flex items-center gap-1 text-sm text-gray-900 cursor-pointer">
               <input
                 type="radio"
                 name="widowType"
@@ -185,7 +185,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
               />
               ひとり親（35万円）
             </label>
-            <label className="flex items-center gap-1 text-sm cursor-pointer">
+            <label className="flex items-center gap-1 text-sm text-gray-900 cursor-pointer">
               <input
                 type="radio"
                 name="widowType"
@@ -220,7 +220,7 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
               [550000, '55万円'],
               [100000, '10万円'],
             ] as const).map(([amount, label]) => (
-              <label key={amount} className="flex items-center gap-1 text-sm cursor-pointer">
+              <label key={amount} className="flex items-center gap-1 text-sm text-gray-900 cursor-pointer">
                 <input
                   type="radio"
                   name="aoshiroAmount"
