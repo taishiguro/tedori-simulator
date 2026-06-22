@@ -5,5 +5,6 @@ const config: Config = {
   transform: { '^.+\\.tsx?$': ['ts-jest', {}] },
   testMatch: ['**/tests/**/*.test.ts'],
   collectCoverageFrom: ['lib/**/*.ts'],
+  moduleNameMapper: { '^@/(.*)$': '<rootDir>/$1' },
 }
 export default config
