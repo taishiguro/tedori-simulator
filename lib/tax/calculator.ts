@@ -224,8 +224,8 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
   const totalExpense = jigyoExpTotal + fudosanExpTotal
   const grossAfterExpense = Math.round(grossIncome - totalExpense)
 
-  // 手取り
-  const tedori = Math.round(grossIncome - totalTax)
+  // 手取り（経費は実際の支出のため grossAfterExpense から控除）
+  const tedori = Math.round(grossAfterExpense - totalTax)
   const tedoriMonthly = Math.round(tedori / 12)
 
   // 実質手取り（iDeCo・小規模企業共済の積立控除後）
