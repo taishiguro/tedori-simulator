@@ -139,6 +139,22 @@ export function calcAllDeductions(
 }
 
 /**
+ * 個人事業税を計算する
+ * 課税対象 = 事業所得 - 事業主控除（290万円）
+ * 地方税法第72条の2・第72条の49の9
+ * @param jigyoShotoku 事業所得
+ * @param category 業種区分
+ */
+export function calcJigyoZei(
+  jigyoShotoku: number,
+  category: '1' | '2' | '3a' | '3b'
+): number {
+  const taxable = Math.max(0, jigyoShotoku - 2900000)
+  const rates: Record<string, number> = { '1': 0.05, '2': 0.04, '3a': 0.05, '3b': 0.03 }
+  return Math.round(taxable * rates[category])
+}
+
+/**
  * 全収入・控除を受け取り手取り額を返すメイン関数
  */
 export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult {
@@ -195,8 +211,13 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
   // 住民税（簡易: 総合課税所得の10% - 住宅ローン控除）
   const juminTax = Math.max(0, Math.round(taxableIncome * 0.10) - jutakuCredit)
 
+  // 事業税（会社員の場合は0）
+  const jigyoZei = inputs.koyo === 'employee'
+    ? 0
+    : calcJigyoZei(jigyoShotoku, inputs.jigyoCategory)
+
   // 合計税負担
-  const totalTax = Math.round(sogoTaxAfterCredit + bunriTax + juminTax + shakai)
+  const totalTax = Math.round(sogoTaxAfterCredit + bunriTax + juminTax + shakai + jigyoZei)
 
   // 総収入
   const grossIncome = Math.round(inputs.salary + inputs.bonus + jigyoRevTotal + fudosanRevTotal + inputs.haito + inputs.kabuGain + inputs.crypto + inputs.rishi)
@@ -204,6 +225,11 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
   // 手取り
   const tedori = Math.round(grossIncome - totalTax - inputs.kabuLoss)
   const tedoriMonthly = Math.round(tedori / 12)
+
+  // 実質手取り（iDeCo・小規模企業共済の積立控除後）
+  const totalTsumitate = inputs.deductions.ideco + inputs.deductions.shoukibo
+  const tedoriJisshitsu = tedori - totalTsumitate
+  const tedoriJisshitsuMonthly = Math.round(tedoriJisshitsu / 12)
 
   return {
     grossIncome,
@@ -218,9 +244,28 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
     bunriTax,
     juminTax,
     shakai,
+    jigyoZei,
     totalTax,
     tedori,
     tedoriMonthly,
+    totalTsumitate,
+    tedoriJisshitsu,
+    tedoriJisshitsuMonthly,
+    grossBreakdown: {
+      salary: inputs.salary,
+      bonus: inputs.bonus,
+      jigyoRevenue: jigyoRevTotal,
+      jigyoExpense: jigyoExpTotal,
+      jigyoShotoku,
+      fudosanRevenue: fudosanRevTotal,
+      fudosanExpense: fudosanExpTotal,
+      fudosanShotoku,
+      haito: inputs.haito,
+      kabuGain: inputs.kabuGain,
+      kabuLoss: inputs.kabuLoss,
+      crypto: inputs.crypto,
+      rishi: inputs.rishi,
+    },
   }
 }
 

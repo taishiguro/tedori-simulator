@@ -88,6 +88,7 @@ const DEFAULT_INVEST: InvestState = {
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabId>('salary')
   const [koyo, setKoyo] = useState<SimulatorInputs['koyo']>('employee')
+  const [jigyoCategory, setJigyoCategory] = useState<SimulatorInputs['jigyoCategory']>('1')
   const [pref, setPref] = useState('13')
   const [salaryMonthly, setSalaryMonthly] = useState<number[]>(Array(12).fill(0))
   const [bonus, setBonus] = useState(0)
@@ -115,10 +116,11 @@ export default function Home() {
       taishoku: 0,
       kinzoku: 0,
       koyo,
+      jigyoCategory,
       pref,
       deductions,
     }),
-    [salaryMonthly, bonus, jigyoRevenue, jigyoExpense, invest, koyo, pref, deductions]
+    [salaryMonthly, bonus, jigyoRevenue, jigyoExpense, invest, koyo, jigyoCategory, pref, deductions]
   )
 
   const result = useMemo(() => calcTedori(inputs, taxData), [inputs, taxData])
@@ -140,6 +142,7 @@ export default function Home() {
     () => ({
       year: 2025 as const,
       koyo,
+      jigyoCategory,
       pref,
       salaryMonthly,
       bonus,
@@ -149,7 +152,7 @@ export default function Home() {
       deductions,
       result,
     }),
-    [koyo, pref, salaryMonthly, bonus, jigyoRevenue, jigyoExpense, invest, deductions, result]
+    [koyo, jigyoCategory, pref, salaryMonthly, bonus, jigyoRevenue, jigyoExpense, invest, deductions, result]
   )
 
   const handleCsvDownload = () => {
@@ -176,6 +179,7 @@ export default function Home() {
       const text = await file.text()
       const imported = parseCsv(text)
       setKoyo(imported.koyo)
+      setJigyoCategory(imported.jigyoCategory)
       setPref(imported.pref)
       setSalaryMonthly(imported.salaryMonthly)
       setBonus(imported.bonus)
@@ -277,8 +281,11 @@ export default function Home() {
             <JigyoInput
               revenue={jigyoRevenue}
               expense={jigyoExpense}
+              jigyoCategory={jigyoCategory}
+              koyo={koyo}
               onRevenueChange={setJigyoRevenue}
               onExpenseChange={setJigyoExpense}
+              onJigyoCategoryChange={setJigyoCategory}
             />
           )}
 
