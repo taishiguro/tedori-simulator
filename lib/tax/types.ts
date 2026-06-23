@@ -92,7 +92,8 @@ export interface SimulatorInputs {
     student: boolean
     aoshiro: boolean
     aoshiroAmount: number
-    shako: number
+    ideco: number
+    shoukibo: number
     medical: number
     seimeiLife: number
     seimeiKaigo: number

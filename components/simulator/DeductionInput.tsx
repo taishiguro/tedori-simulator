@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { SimulatorInputs } from '@/lib/tax/types'
 
 type Deductions = SimulatorInputs['deductions']
@@ -7,6 +8,7 @@ type Deductions = SimulatorInputs['deductions']
 interface DeductionInputProps {
   deductions: Deductions
   onChange: (d: Deductions) => void
+  furusatoLimit: number
 }
 
 function NumInput({
@@ -88,7 +90,11 @@ function Checkbox({
   )
 }
 
-export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
+export function DeductionInput({ deductions, onChange, furusatoLimit }: DeductionInputProps) {
+  const [idecoOpen, setIdecoOpen] = useState(deductions.ideco > 0)
+  const [shoukiboOpen, setShoukiboOpen] = useState(deductions.shoukibo > 0)
+  const [furusatoOpen, setFurusatoOpen] = useState(deductions.furusato > 0)
+
   const set = <K extends keyof Deductions>(key: K, value: Deductions[K]) => {
     onChange({ ...deductions, [key]: value } as Deductions)
   }
@@ -233,11 +239,53 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
           </div>
         )}
 
-        <NumInput
-          label="iDeCo・小規模企業共済"
-          value={deductions.shako}
-          onChange={v => set('shako', v)}
-        />
+        <div className="space-y-2">
+          <Checkbox
+            label="iDeCo（個人型確定拠出年金）"
+            checked={idecoOpen}
+            onChange={v => {
+              setIdecoOpen(v)
+              if (!v) set('ideco', 0)
+            }}
+          />
+          {idecoOpen && (
+            <div className="ml-6 space-y-1">
+              <NumInput
+                label="掛金額（年間）"
+                value={deductions.ideco}
+                onChange={v => set('ideco', v)}
+              />
+              <p className="text-xs text-gray-500 ml-0">上限の目安: 会社員 年276,000円 / 自営業 年816,000円</p>
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Checkbox
+            label="小規模企業共済"
+            checked={shoukiboOpen}
+            onChange={v => {
+              setShoukiboOpen(v)
+              if (!v) set('shoukibo', 0)
+            }}
+          />
+          {shoukiboOpen && (
+            <div className="ml-6 space-y-1">
+              <NumInput
+                label="掛金額（年間）"
+                value={deductions.shoukibo}
+                onChange={v => set('shoukibo', v)}
+              />
+              <p className="text-xs text-gray-500 ml-0">上限: 月70,000円（年840,000円）</p>
+            </div>
+          )}
+        </div>
+
+        {(idecoOpen || shoukiboOpen) && (
+          <p className="text-xs text-gray-600 ml-1">
+            iDeCo + 小規模企業共済 = 合計{(deductions.ideco + deductions.shoukibo).toLocaleString('ja-JP')}円（全額所得控除）
+          </p>
+        )}
         <NumInput
           label="医療費控除（実支出額）"
           value={deductions.medical}
@@ -263,11 +311,36 @@ export function DeductionInput({ deductions, onChange }: DeductionInputProps) {
           value={deductions.kasai}
           onChange={v => set('kasai', v)}
         />
-        <NumInput
-          label="ふるさと納税（寄附金額）"
-          value={deductions.furusato}
-          onChange={v => set('furusato', v)}
-        />
+        <div className="space-y-2">
+          <Checkbox
+            label="ふるさと納税"
+            checked={furusatoOpen}
+            onChange={v => {
+              setFurusatoOpen(v)
+              if (!v) set('furusato', 0)
+            }}
+          />
+          {furusatoOpen && (
+            <div className="ml-6 space-y-3">
+              <div>
+                <p className="text-xs font-medium text-gray-700 mb-1">[ ふるさと納税上限額シミュレーション ]</p>
+                <p className="text-xs text-gray-600 mb-2">現在の入力値から計算した目安の上限額:</p>
+                <div className="border border-gray-300 rounded p-3 bg-gray-50 inline-block min-w-[220px]">
+                  <p className="text-xs font-semibold text-gray-700">ふるさと納税 上限目安額</p>
+                  <p className="text-lg font-bold text-blue-700 mt-1">¥ {furusatoLimit.toLocaleString('ja-JP')} 円</p>
+                  <p className="text-xs text-gray-500">（うち自己負担: 2,000円）</p>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">※ 他の控除の入力状況によって変動します</p>
+                <p className="text-xs text-gray-500">※ 詳細は各ふるさと納税サイトのシミュレーターでご確認ください</p>
+              </div>
+              <NumInput
+                label="寄附金額（自己負担2千円超分）"
+                value={deductions.furusato}
+                onChange={v => set('furusato', v)}
+              />
+            </div>
+          )}
+        </div>
       </section>
 
       <section className="space-y-3">

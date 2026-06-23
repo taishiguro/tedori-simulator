@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { SimulatorInputs } from '@/lib/tax/types'
-import { calcTedori } from '@/lib/tax/calculator'
+import { calcTedori, calcFurusatoLimit } from '@/lib/tax/calculator'
 import { getTaxData } from '@/lib/tax/loader'
 import { SalaryInput } from '@/components/simulator/SalaryInput'
 import { JigyoInput } from '@/components/simulator/JigyoInput'
@@ -58,7 +58,8 @@ const DEFAULT_DEDUCTIONS: SimulatorInputs['deductions'] = {
   student: false,
   aoshiro: false,
   aoshiroAmount: 650000,
-  shako: 0,
+  ideco: 0,
+  shoukibo: 0,
   medical: 0,
   seimeiLife: 0,
   seimeiKaigo: 0,
@@ -121,6 +122,10 @@ export default function Home() {
   )
 
   const result = useMemo(() => calcTedori(inputs, taxData), [inputs, taxData])
+  const furusatoLimit = useMemo(
+    () => calcFurusatoLimit(result.taxableIncome, taxData),
+    [result.taxableIncome, taxData]
+  )
 
   const handleInvestChange = (patch: Partial<InvestState>) => {
     setInvest(prev => ({ ...prev, ...patch }))
@@ -282,7 +287,11 @@ export default function Home() {
           )}
 
           {activeTab === 'deduct' && (
-            <DeductionInput deductions={deductions} onChange={setDeductions} />
+            <DeductionInput
+              deductions={deductions}
+              onChange={setDeductions}
+              furusatoLimit={furusatoLimit}
+            />
           )}
 
           {activeTab === 'result' && (
