@@ -8,7 +8,6 @@ interface JigyoInputProps {
   revenue: number[]
   expense: number[]
   jigyoCategory: '1' | '2' | '3a' | '3b'
-  koyo: 'employee' | 'self' | 'none'
   onRevenueChange: (monthly: number[]) => void
   onExpenseChange: (monthly: number[]) => void
   onJigyoCategoryChange: (cat: '1' | '2' | '3a' | '3b') => void
@@ -127,7 +126,7 @@ function HalfYearGrid({
   )
 }
 
-export function JigyoInput({ revenue, expense, jigyoCategory, koyo, onRevenueChange, onExpenseChange, onJigyoCategoryChange }: JigyoInputProps) {
+export function JigyoInput({ revenue, expense, jigyoCategory, onRevenueChange, onExpenseChange, onJigyoCategoryChange }: JigyoInputProps) {
   const handleRevenueCell = (idx: number, raw: string) => {
     const n = parseInt(raw, 10)
     const next = [...revenue]
@@ -152,20 +151,17 @@ export function JigyoInput({ revenue, expense, jigyoCategory, koyo, onRevenueCha
 
       <div className="space-y-1.5">
         <p className="text-sm font-medium text-gray-800">業種区分（事業税率）</p>
-        {koyo === 'employee' ? (
-          <p className="text-xs text-gray-500">※会社員の方には事業税は発生しません</p>
-        ) : (
-          <select
-            value={jigyoCategory}
-            onChange={e => onJigyoCategoryChange(e.target.value as '1' | '2' | '3a' | '3b')}
-            className="w-full rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="1">第1種事業（5%）：小売・製造・飲食・不動産・サービス等</option>
-            <option value="2">第2種事業（4%）：畜産・水産・薪炭業</option>
-            <option value="3a">第3種事業（5%）：医師・弁護士・税理士・コンサルタント等</option>
-            <option value="3b">第3種事業（3%）：あん摩・はり・きゅう・柔道整復等</option>
-          </select>
-        )}
+        <select
+          value={jigyoCategory}
+          onChange={e => onJigyoCategoryChange(e.target.value as '1' | '2' | '3a' | '3b')}
+          className="w-full rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="1">第1種事業（5%）：小売・製造・飲食・不動産・サービス等</option>
+          <option value="2">第2種事業（4%）：畜産・水産・薪炭業</option>
+          <option value="3a">第3種事業（5%）：医師・弁護士・税理士・コンサルタント等</option>
+          <option value="3b">第3種事業（3%）：あん摩・はり・きゅう・柔道整復等</option>
+        </select>
+        <p className="text-xs text-gray-500">※事業所得がある場合、雇用形態に関わらず事業税が発生します。事業所得が290万円以下の場合は事業税は0円です。</p>
       </div>
 
       <div className="space-y-2">
