@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { TedoriResult } from '@/lib/tax/types'
 
 interface ResultPanelProps {
@@ -227,6 +228,83 @@ function GrossBreakdownSection({
   )
 }
 
+function FormulaBox({ result }: { result: TedoriResult }) {
+  const [open, setOpen] = useState(true)
+  const showJisshitsu = result.totalTsumitate > 0
+
+  const rows: { label: string; value: number }[] = [
+    { label: '所得税（復興税込）', value: result.totalSogoTax },
+    { label: '住民税', value: result.juminTax },
+    { label: '社会保険料', value: result.shakai },
+    { label: '事業税', value: result.jigyoZei },
+    { label: '分離課税（株式・配当）', value: result.bunriTax },
+  ].filter(r => r.value > 0)
+
+  return (
+    <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <p className="text-sm font-semibold text-gray-800">推定手取り額の計算式</p>
+        <button
+          type="button"
+          onClick={() => setOpen(prev => !prev)}
+          className="text-xs text-blue-600 hover:text-blue-800 underline"
+        >
+          {open ? '計算式を隠す' : '計算式を表示'}
+        </button>
+      </div>
+      {open && (
+        <div className="px-4 py-3 text-sm">
+          <table className="w-full">
+            <tbody>
+              <tr>
+                <td className="py-1 text-gray-700">総収入</td>
+                <td className="py-1 text-right font-mono text-gray-900">{fmt(result.grossIncome)} 円</td>
+              </tr>
+              {rows.map(r => (
+                <tr key={r.label}>
+                  <td className="py-1 text-gray-600">ー {r.label}</td>
+                  <td className="py-1 text-right font-mono text-gray-700">{fmt(r.value)} 円</td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan={2} className="py-1">
+                  <hr className="border-gray-400 border-t-2" />
+                </td>
+              </tr>
+              <tr>
+                <td className="py-1 font-semibold text-gray-800">推定手取り額</td>
+                <td className="py-1 text-right font-mono font-semibold text-blue-700">{fmt(result.tedori)} 円</td>
+              </tr>
+              {showJisshitsu && (
+                <>
+                  <tr>
+                    <td colSpan={2} className="pt-3 pb-1">
+                      <hr className="border-gray-200" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-gray-600">ー iDeCo・小規模企業共済</td>
+                    <td className="py-1 text-right font-mono text-gray-700">{fmt(result.totalTsumitate)} 円</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2} className="py-1">
+                      <hr className="border-gray-400 border-t-2" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 font-semibold text-gray-800">実質手取り額</td>
+                    <td className="py-1 text-right font-mono font-semibold text-green-700">{fmt(result.tedoriJisshitsu)} 円</td>
+                  </tr>
+                </>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export function ResultPanel({ result }: ResultPanelProps) {
   const showJisshitsu = result.totalTsumitate > 0
 
@@ -250,6 +328,8 @@ export function ResultPanel({ result }: ResultPanelProps) {
           />
         )}
       </div>
+
+      <FormulaBox result={result} />
 
       {showJisshitsu && (
         <div className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
