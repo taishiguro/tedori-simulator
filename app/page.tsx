@@ -282,7 +282,6 @@ export default function Home() {
               revenue={jigyoRevenue}
               expense={jigyoExpense}
               jigyoCategory={jigyoCategory}
-              koyo={koyo}
               onRevenueChange={setJigyoRevenue}
               onExpenseChange={setJigyoExpense}
               onJigyoCategoryChange={setJigyoCategory}

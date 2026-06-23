@@ -211,10 +211,10 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
   // 住民税（簡易: 総合課税所得の10% - 住宅ローン控除）
   const juminTax = Math.max(0, Math.round(taxableIncome * 0.10) - jutakuCredit)
 
-  // 事業税（会社員の場合は0）
-  const jigyoZei = inputs.koyo === 'employee'
-    ? 0
-    : calcJigyoZei(jigyoShotoku, inputs.jigyoCategory)
+  // 事業所得がある場合は雇用形態に関わらず事業税を計算
+  const jigyoZei = jigyoShotoku > 0
+    ? calcJigyoZei(jigyoShotoku, inputs.jigyoCategory)
+    : 0
 
   // 合計税負担
   const totalTax = Math.round(sogoTaxAfterCredit + bunriTax + juminTax + shakai + jigyoZei)
