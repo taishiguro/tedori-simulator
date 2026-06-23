@@ -20,6 +20,7 @@ const baseInputs: SimulatorInputs = {
   taishoku: 0,
   kinzoku: 0,
   koyo: 'none',
+  jigyoCategory: '1',
   pref: '13',
   deductions: {
     basic: false,

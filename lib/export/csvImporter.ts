@@ -4,6 +4,7 @@ import type { SimulatorInputs } from '@/lib/tax/types'
 export interface ImportedState {
   year: number
   koyo: SimulatorInputs['koyo']
+  jigyoCategory: SimulatorInputs['jigyoCategory']
   pref: string
   salaryMonthly: number[]
   bonus: number
@@ -49,6 +50,12 @@ export function parseCsv(text: string): ImportedState {
       ? koyoRaw
       : 'employee'
 
+  const jigyoCategoryRaw = map['input:jigyo_category'] ?? '1'
+  const jigyoCategory: SimulatorInputs['jigyoCategory'] =
+    jigyoCategoryRaw === '1' || jigyoCategoryRaw === '2' || jigyoCategoryRaw === '3a' || jigyoCategoryRaw === '3b'
+      ? jigyoCategoryRaw
+      : '1'
+
   const haitoModeRaw = map['input:haito_mode'] ?? 'noapply'
   const haitoMode: InvestState['haitoMode'] =
     haitoModeRaw === 'bunri' || haitoModeRaw === 'sogo' || haitoModeRaw === 'noapply'
@@ -58,6 +65,7 @@ export function parseCsv(text: string): ImportedState {
   return {
     year,
     koyo,
+    jigyoCategory,
     pref: map['input:pref'] ?? '13',
     salaryMonthly: monthly12('input:salary'),
     bonus: num('input:bonus'),

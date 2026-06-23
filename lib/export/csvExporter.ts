@@ -5,6 +5,7 @@ export interface CsvExportData {
   year: number
   date: string
   koyo: SimulatorInputs['koyo']
+  jigyoCategory: SimulatorInputs['jigyoCategory']
   pref: string
   salaryMonthly: number[]
   bonus: number
@@ -29,6 +30,7 @@ export function generateCsvContent(data: CsvExportData): string {
   rows.push(`meta:version,1.0.0`)
 
   rows.push(`input:koyo,${data.koyo}`)
+  rows.push(`input:jigyo_category,${data.jigyoCategory}`)
   rows.push(`input:pref,${data.pref}`)
 
   data.salaryMonthly.forEach((v, i) => rows.push(`input:salary_${pad2(i + 1)},${v}`))
