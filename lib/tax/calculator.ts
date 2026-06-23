@@ -221,6 +221,8 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
 
   // 総収入
   const grossIncome = Math.round(inputs.salary + inputs.bonus + jigyoRevTotal + fudosanRevTotal + inputs.haito + inputs.kabuGain + inputs.crypto + inputs.rishi)
+  const totalExpense = jigyoExpTotal + fudosanExpTotal
+  const grossAfterExpense = Math.round(grossIncome - totalExpense)
 
   // 手取り
   const tedori = Math.round(grossIncome - totalTax - inputs.kabuLoss)
@@ -251,6 +253,8 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
     totalTsumitate,
     tedoriJisshitsu,
     tedoriJisshitsuMonthly,
+    grossAfterExpense,
+    totalExpense,
     grossBreakdown: {
       salary: inputs.salary,
       bonus: inputs.bonus,
