@@ -231,6 +231,7 @@ function GrossBreakdownSection({
 function FormulaBox({ result }: { result: TedoriResult }) {
   const [open, setOpen] = useState(true)
   const showJisshitsu = result.totalTsumitate > 0
+  const hasExpense = result.totalExpense > 0
 
   const rows: { label: string; value: number }[] = [
     { label: '所得税（復興税込）', value: result.totalSogoTax },
@@ -257,9 +258,26 @@ function FormulaBox({ result }: { result: TedoriResult }) {
           <table className="w-full">
             <tbody>
               <tr>
-                <td className="py-1 text-gray-700">総収入</td>
+                <td className="py-1 text-gray-700">{hasExpense ? '総収入（売上合計）' : '総収入'}</td>
                 <td className="py-1 text-right font-mono text-gray-900">{fmt(result.grossIncome)} 円</td>
               </tr>
+              {hasExpense && (
+                <>
+                  <tr>
+                    <td className="py-1 text-gray-600">ー 事業経費・不動産経費</td>
+                    <td className="py-1 text-right font-mono text-gray-700">{fmt(result.totalExpense)} 円</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2} className="py-0">
+                      <hr className="border-gray-300" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-1 text-gray-700">経費控除後収入</td>
+                    <td className="py-1 text-right font-mono text-gray-900">{fmt(result.grossAfterExpense)} 円</td>
+                  </tr>
+                </>
+              )}
               {rows.map(r => (
                 <tr key={r.label}>
                   <td className="py-1 text-gray-600">ー {r.label}</td>
