@@ -129,6 +129,8 @@ export interface TedoriResult {
   totalTsumitate: number
   tedoriJisshitsu: number
   tedoriJisshitsuMonthly: number
+  grossAfterExpense: number
+  totalExpense: number
   grossBreakdown: {
     salary: number
     bonus: number
