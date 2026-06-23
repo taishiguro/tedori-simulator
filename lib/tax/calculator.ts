@@ -111,8 +111,8 @@ export function calcAllDeductions(
   // 勤労学生控除
   if (inputs.deductions.student) total += 270000
 
-  // 小規模企業共済等掛金控除
-  total += inputs.deductions.shako
+  // 小規模企業共済等掛金控除（iDeCo + 小規模企業共済）
+  total += inputs.deductions.ideco + inputs.deductions.shoukibo
 
   // 医療費控除
   const medicalDeduction = inputs.deductions.medical - Math.min(Math.round(sogoIncome * 0.05), 100000)
@@ -222,4 +222,28 @@ export function calcTedori(inputs: SimulatorInputs, data: TaxData): TedoriResult
     tedori,
     tedoriMonthly,
   }
+}
+
+/**
+ * ふるさと納税の上限額（目安）を計算する
+ * 上限額 = （住民税所得割額 × 20%）÷（1 - 所得税率 - 住民税率10%）+ 2,000円
+ * 住民税所得割額 = 課税所得 × 10%
+ */
+export function calcFurusatoLimit(taxableIncome: number, data: TaxData): number {
+  if (taxableIncome <= 0) return 2000
+
+  const juminshozei = taxableIncome * 0.10
+
+  let incomeTaxRate = 0
+  for (const b of data.incomeTax.brackets) {
+    if (b.max === null || taxableIncome <= b.max) {
+      incomeTaxRate = b.rate
+      break
+    }
+  }
+
+  const denominator = 1 - incomeTaxRate - 0.10
+  if (denominator <= 0) return 2000
+
+  return Math.round((juminshozei * 0.20) / denominator) + 2000
 }
